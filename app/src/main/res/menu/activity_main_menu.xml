@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/play_hunt"
+        android:title="@string/menu_play_hunt" />
+    <item
+        android:id="@+id/home_screen"
+        android:title="@string/menu_home_screen"/>
+    <item
+        android:id="@+id/create_hunt"
+        android:title="@string/menu_create_hunt" />
+</menu>
