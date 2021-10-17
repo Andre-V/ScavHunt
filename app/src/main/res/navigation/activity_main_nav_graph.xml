@@ -16,7 +16,7 @@
         tools:layout="@layout/fragment_home_screen"/>
     <fragment
         android:id="@+id/create_hunt"
-        android:name="com.example.scavhunt.fragment.FragmentCreateHunt"
+        android:name="com.example.scavhunt.fragment.create.FragmentCreateHunt"
         android:label="@string/menu_create_hunt"
         tools:layout="@layout/fragment_create_hunt"/>
 </navigation>
