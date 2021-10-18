@@ -27,8 +27,22 @@ class FragmentCreateHunt : Fragment() {
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         result -> when(result.resultCode) {
             RESULT_OK -> {
-                // Get returned data, determine if it overwrites existing view to modify list
-                // Notify adapter of change
+                result.data?.let { intent ->
+                    // Get returned data
+                    val place = intent.getParcelableExtra<ScavItem>("item")
+                    val index = intent.getIntExtra("index", -1)
+                    place?.let {
+                        // Determine to either overwrite existing data or append
+                        if (index < 0) {
+                            createHuntData.items.add(it)
+                            recyclerView.adapter?.notifyItemInserted(createHuntData.items.size - 1)
+                        }
+                        else {
+                            createHuntData.items[index] = it
+                            recyclerView.adapter?.notifyItemChanged(index)
+                        }
+                    }
+                }
             }
         }
     }
