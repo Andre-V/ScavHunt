@@ -11,7 +11,7 @@ import java.util.*
 
 class CreateScavHuntAdapter(
         private val data: List<ScavItem>,
-        private val listener: (ScavItem) -> Unit
+        private val listener: (ScavItem, Int) -> Unit
     ) : RecyclerView.Adapter<CreateScavHuntAdapter.ViewHolder>() {
 
     override fun getItemCount() = data.size
@@ -23,20 +23,20 @@ class CreateScavHuntAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position], position)
     }
 
     inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v) {
         private val title = v.findViewById<TextView>(R.id.row_create_title)
         private val desc = v.findViewById<TextView>(R.id.row_create_desc)
 
-        fun bind(item: ScavItem) {
+        fun bind(item: ScavItem, position: Int) {
             item.let {
                 title.text = it.title
                 desc.text = it.desc
             }
             v.setOnClickListener {
-                listener(item)
+                listener(item, position)
             }
         }
     }

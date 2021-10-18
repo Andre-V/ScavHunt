@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 data class ScavHunt(
     val title: String,
-    val rating: Int,
+    val rating: Int = 0,
     val completed: Boolean = false,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) : Parcelable
