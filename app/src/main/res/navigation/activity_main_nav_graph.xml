@@ -6,7 +6,7 @@
     app:startDestination="@+id/home_screen">
     <fragment
         android:id="@+id/play_hunt"
-        android:name="com.example.scavhunt.fragment.FragmentPlayHunt"
+        android:name="com.example.scavhunt.fragment.play.FragmentPlayHunt"
         android:label="@string/menu_play_hunt"
         tools:layout="@layout/fragment_play_hunt"/>
     <fragment

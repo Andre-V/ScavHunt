@@ -8,22 +8,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.scavhunt.CreateScavItemActivity
 import com.example.scavhunt.R
 import com.example.scavhunt.db.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.*
 
 class FragmentCreateHunt : Fragment() {
 
     lateinit var recyclerView: RecyclerView
-    lateinit var adapter: CreateScavHuntAdapter
+    lateinit var adapter: CreateScavItemAdapter
+    //TODO: change scope to entire activity to edit previously made scavenger hunts
     private val createHuntData: CreateHuntViewModel by viewModels()
+
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         result -> when(result.resultCode) {
             RESULT_OK -> {
@@ -56,7 +62,7 @@ class FragmentCreateHunt : Fragment() {
 
         // Set up RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.create_recycler_view)
-        adapter = CreateScavHuntAdapter(createHuntData.items) {
+        adapter = CreateScavItemAdapter(createHuntData.items) {
             // Set launch intent event for each item
             item: ScavItem, int : Int -> launchItemActivity(item, int, view.context)
         }
@@ -69,6 +75,21 @@ class FragmentCreateHunt : Fragment() {
             launchItemActivity(null, null, view.context)
         }
 
+        // Change ViewModel on text
+        view.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
+            editText?.doAfterTextChanged {
+                it?.let {
+                    // TODO: Accommodate editing hunts rather than creating a new one
+                    createHuntData.hunt = ScavHunt(it.toString())
+                }
+            }
+        }
+
+        // Set save event for submit button
+        view.findViewById<Button>(R.id.create_submit).setOnClickListener {
+            saveScavHunt()
+        }
+
         // Load any data from ViewModel
         return view
     }
@@ -78,6 +99,21 @@ class FragmentCreateHunt : Fragment() {
             putExtra("index", index)
         }
         startForResult.launch(intent)
+    }
+    private fun saveScavHunt() {
+        createHuntData.hunt?.let {
+            //TODO: Use singleton instance to improve performance
+
+            val dbHunt = Room.databaseBuilder(
+                recyclerView.context, ScavHuntDatabase::class.java,
+                "ScavHuntDatabase").build()
+
+            GlobalScope.launch(Dispatchers.IO) {
+                dbHunt.scavHuntDao().insertScavHunt(it)
+                dbHunt.scavItemDao().insertScavItems(createHuntData.items)
+            }
+
+        }
     }
 
 }

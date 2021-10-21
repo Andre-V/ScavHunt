@@ -4,9 +4,9 @@ import androidx.room.*
 
 @Dao
 interface ScavHuntDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertScavHunt(scavHunt: ScavHunt)
-    @Query("SELECT * FROM ScavHunt")
+    @Query("SELECT * FROM scavHunt")
     fun selectAllScavHunts() : List<ScavHunt>
 }
 
@@ -14,5 +14,7 @@ interface ScavHuntDao {
 interface ScavItemDao {
     @Insert
     fun insertScavItem(scavItem: ScavItem)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertScavItems(scavItems: List<ScavItem>)
 }
 

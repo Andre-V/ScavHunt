@@ -7,12 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scavhunt.R
 import com.example.scavhunt.db.ScavItem
-import java.util.*
 
-class CreateScavHuntAdapter(
+class CreateScavItemAdapter(
         private val data: List<ScavItem>,
         private val listener: (ScavItem, Int) -> Unit
-    ) : RecyclerView.Adapter<CreateScavHuntAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<CreateScavItemAdapter.ViewHolder>() {
 
     override fun getItemCount() = data.size
 

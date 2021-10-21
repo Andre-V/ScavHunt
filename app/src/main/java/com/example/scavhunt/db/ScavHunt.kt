@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity
+@Entity(tableName = "scavHunt")
 data class ScavHunt(
     var title: String,
     var rating: Int = 0,
@@ -15,7 +15,7 @@ data class ScavHunt(
 ) : Parcelable
 
 @Parcelize
-@Entity
+@Entity(tableName = "scavItem")
 data class ScavItem(
     var title: String,
     var desc: String,
