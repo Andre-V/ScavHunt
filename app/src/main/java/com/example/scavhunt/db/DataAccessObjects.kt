@@ -18,5 +18,7 @@ interface ScavItemDao {
     fun insertScavItem(scavItem: ScavItem)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertScavItems(scavItems: List<ScavItem>)
+    @Query("SELECT * FROM scavItem WHERE scavHuntId = :id")
+    fun selectAllScavItemsWith(id: Int) : List<ScavItem>
 }
 

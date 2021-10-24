@@ -12,7 +12,8 @@ import com.example.scavhunt.fragment.create.CreateScavItemAdapter
 
 
 class PlayScavHuntAdapter(
-    private var data: List<ScavHunt>
+    private var data: List<ScavHunt>,
+    private val listener: (ScavHunt) -> Unit
 ) : RecyclerView.Adapter<PlayScavHuntAdapter.ViewHolder>() {
 
     override fun getItemCount() = data.size
@@ -42,6 +43,9 @@ class PlayScavHuntAdapter(
                 title.text = it.title
                 rating.text = it.rating.toString()
                 completed.text = it.completed.toString()
+            }
+            v.setOnClickListener {
+                listener(item)
             }
         }
     }
