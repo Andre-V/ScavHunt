@@ -29,16 +29,3 @@ abstract class ScavHuntDatabase : RoomDatabase() {
         }
     }
 }
-
-// Complete the singleton pattern by extending Application class
-// which can be
-class ScavHuntApp : Application() {
-    val database by lazy { ScavHuntDatabase.getDatabase(this) }
-    val scavHuntDao by lazy { database.scavHuntDao() }
-    val scavItemDao by lazy { database.scavItemDao() }
-}
-
-/*@Database(entities = [ScavItem::class], version = 1)
-abstract class ScavItemDatabase : RoomDatabase() {
-    abstract fun scavItemDao() : ScavItemDao
-}*/

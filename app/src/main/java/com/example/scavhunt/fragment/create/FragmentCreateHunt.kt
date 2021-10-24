@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.example.scavhunt.CreateScavItemActivity
 import com.example.scavhunt.R
+import com.example.scavhunt.ScavHuntApp
 import com.example.scavhunt.db.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
@@ -38,6 +39,8 @@ class FragmentCreateHunt : Fragment() {
                     val place = intent.getParcelableExtra<ScavItem>("item")
                     val index = intent.getIntExtra("index", -1)
                     place?.let {
+                        // Set ID to reference parent hunt
+                        //createHuntData.hunt.id
                         // Determine to either overwrite existing data or append
                         if (index < 0) {
                             createHuntData.items.add(it)
@@ -66,7 +69,6 @@ class FragmentCreateHunt : Fragment() {
             // Set launch intent event for each item
             item: ScavItem, int : Int -> launchItemActivity(item, int, view.context)
         }
-
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
@@ -75,12 +77,11 @@ class FragmentCreateHunt : Fragment() {
             launchItemActivity(null, null, view.context)
         }
 
-        // Change ViewModel on text
+        // Change ViewModel on text change
         view.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
             editText?.doAfterTextChanged {
                 it?.let {
-                    // TODO: Accommodate editing hunts rather than creating a new one
-                    createHuntData.hunt = ScavHunt(it.toString())
+                    createHuntData.hunt.title = it.toString()
                 }
             }
         }
@@ -101,24 +102,21 @@ class FragmentCreateHunt : Fragment() {
         startForResult.launch(intent)
     }
     private fun saveScavHunt() {
-        createHuntData.hunt?.let {
-            //TODO: Use singleton instance to improve performance
-
-            val dbHunt = Room.databaseBuilder(
-                recyclerView.context, ScavHuntDatabase::class.java,
-                "ScavHuntDatabase").build()
-
-            GlobalScope.launch(Dispatchers.IO) {
-                dbHunt.scavHuntDao().insertScavHunt(it)
-                dbHunt.scavItemDao().insertScavItems(createHuntData.items)
-            }
-
+        GlobalScope.launch(Dispatchers.IO) {
+            val rowid = ScavHuntApp.scavHuntDao.insertScavHunt(createHuntData.hunt)
+            createHuntData.setItemsID(rowid.toInt())
+            ScavHuntApp.scavItemDao.insertScavItems(createHuntData.items)
         }
     }
 
 }
 
 class CreateHuntViewModel: ViewModel() {
-    var hunt : ScavHunt? = null
+    var hunt : ScavHunt = ScavHunt("")
     var items : MutableList<ScavItem> = mutableListOf()
+    fun setItemsID(id : Int) {
+        for (item in items) {
+            item.scavHuntId = id
+        }
+    }
 }

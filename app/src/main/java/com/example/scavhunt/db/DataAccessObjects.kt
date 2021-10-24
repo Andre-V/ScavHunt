@@ -4,8 +4,10 @@ import androidx.room.*
 
 @Dao
 interface ScavHuntDao {
+    // Returned rowid is equivalent to PK (according to https://www.sqlite.org/rowidtable.html)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertScavHunt(scavHunt: ScavHunt)
+    fun insertScavHunt(scavHunt: ScavHunt) : Long
+
     @Query("SELECT * FROM scavHunt")
     fun selectAllScavHunts() : List<ScavHunt>
 }

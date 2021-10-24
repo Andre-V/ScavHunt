@@ -21,6 +21,6 @@ data class ScavItem(
     var desc: String,
     var answer: String,
     var completed: Boolean = false,
-    val scavHuntId: Int = 0,
+    var scavHuntId: Int = 0,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) : Parcelable
