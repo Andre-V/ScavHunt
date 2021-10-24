@@ -1,5 +1,6 @@
 package com.example.scavhunt
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,7 +36,7 @@ class PlayTasksActivity : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.play_recycler_view)
         playTaskData.items.value?.let {
             adapter = PlayTasksAdapter(it) {
-
+                answerTask(it)
             }
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(this)
@@ -52,6 +53,11 @@ class PlayTasksActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun answerTask(item : ScavItem) {
+        val intent = Intent(this, AnswerTaskActivity::class.java).apply {
+        }
+        startActivity(intent)
     }
 }
 
