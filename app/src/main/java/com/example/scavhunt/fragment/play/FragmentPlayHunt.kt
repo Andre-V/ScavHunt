@@ -6,22 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import com.example.scavhunt.CreateScavItemActivity
 import com.example.scavhunt.PlayTasksActivity
 import com.example.scavhunt.R
 import com.example.scavhunt.ScavHuntApp
 import com.example.scavhunt.db.ScavHunt
-import com.example.scavhunt.db.ScavHuntDatabase
-import com.example.scavhunt.fragment.create.CreateScavItemAdapter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -32,6 +27,10 @@ class FragmentPlayHunt : Fragment() {
 
     private val playHuntData: PlayHuntViewModel by viewModels()
 
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        // Refresh list on return
+        refresh()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,9 +52,7 @@ class FragmentPlayHunt : Fragment() {
             adapter.setData(it)
         })
 
-        GlobalScope.launch {
-            playHuntData.items.postValue(ScavHuntApp.scavHuntDao.selectAllScavHunts())
-        }
+        refresh()
 
         return view
     }
@@ -63,7 +60,12 @@ class FragmentPlayHunt : Fragment() {
         val intent = Intent(context, PlayTasksActivity::class.java).apply {
             putExtra("hunt", item)
         }
-        startActivity(intent)
+        startForResult.launch(intent)
+    }
+    private fun refresh() {
+        GlobalScope.launch {
+            playHuntData.items.postValue(ScavHuntApp.scavHuntDao.selectAll())
+        }
     }
 
 }

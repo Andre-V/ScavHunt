@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -15,23 +16,57 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scavhunt.db.ScavHunt
 import com.example.scavhunt.db.ScavItem
-import com.example.scavhunt.fragment.play.PlayHuntViewModel
-import com.example.scavhunt.fragment.play.PlayScavHuntAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class PlayTasksActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: PlayTasksAdapter
+    var scavHunt: ScavHunt? = null
 
     private val playTaskData: PlayTaskViewModel by viewModels()
+
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        result -> when(result.resultCode) {
+            RESULT_OK -> {
+                result.data?.let {
+                    intent ->
+                    // Get returned ScavItem
+                    val place = intent.getParcelableExtra<ScavItem>("item")
+                    place?.let {
+                        GlobalScope.launch {
+                            // Update item
+                            ScavHuntApp.scavItemDao.update(it)
+                            scavHunt?.let { scavHunt ->
+                                // Load items
+                                val items = ScavHuntApp.scavItemDao.selectAllWith(scavHunt.id)
+                                // Reload items
+                                playTaskData.items.postValue(items)
+                                // Update hunt status
+                                var allComplete = true
+                                for (item in items) {
+                                    if (!item.completed) {
+                                        allComplete = false
+                                        break
+                                    }
+                                }
+                                scavHunt.completed = allComplete
+                                ScavHuntApp.scavHuntDao.update(scavHunt)
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_task)
         // Load intent
         // Apply intent data
-        val scavHunt = intent.getParcelableExtra<ScavHunt>("hunt")
+        scavHunt = intent.getParcelableExtra<ScavHunt>("hunt")
         // Set up RecyclerView
         recyclerView = findViewById<RecyclerView>(R.id.play_recycler_view)
         playTaskData.items.value?.let {
@@ -48,16 +83,16 @@ class PlayTasksActivity : AppCompatActivity() {
         scavHunt?.let {
             GlobalScope.launch {
                 playTaskData.items.postValue(
-                    ScavHuntApp.scavItemDao.selectAllScavItemsWith(it.id)
+                    ScavHuntApp.scavItemDao.selectAllWith(it.id)
                 )
             }
         }
-
     }
     private fun answerTask(item : ScavItem) {
         val intent = Intent(this, AnswerTaskActivity::class.java).apply {
+            putExtra("item", item)
         }
-        startActivity(intent)
+        startForResult.launch(intent)
     }
 }
 
@@ -93,8 +128,15 @@ class PlayTasksAdapter(
     inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v) {
         private val title = v.findViewById<TextView>(R.id.row_play_task_title)
         private val desc = v.findViewById<TextView>(R.id.row_play_task_desc)
+        private val defaultColor = v.background
 
         fun bind(item: ScavItem, position: Int) {
+            if (item.completed) {
+                v.setBackgroundResource(R.color.complete)
+            }
+            else {
+                v.background = defaultColor
+            }
             item.let {
                 title.text = it.title
                 desc.text = it.desc

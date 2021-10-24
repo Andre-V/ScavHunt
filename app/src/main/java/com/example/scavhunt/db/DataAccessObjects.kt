@@ -6,19 +6,22 @@ import androidx.room.*
 interface ScavHuntDao {
     // Returned rowid is equivalent to PK (according to https://www.sqlite.org/rowidtable.html)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertScavHunt(scavHunt: ScavHunt) : Long
-
+    fun insert(scavHunt: ScavHunt) : Long
+    @Update()
+    fun update(scavHunt: ScavHunt)
     @Query("SELECT * FROM scavHunt")
-    fun selectAllScavHunts() : List<ScavHunt>
+    fun selectAll() : List<ScavHunt>
 }
 
 @Dao
 interface ScavItemDao {
     @Insert
-    fun insertScavItem(scavItem: ScavItem)
+    fun insert(scavItem: ScavItem)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertScavItems(scavItems: List<ScavItem>)
+    fun insert(scavItems: List<ScavItem>)
+    @Update
+    fun update(scavItem: ScavItem)
     @Query("SELECT * FROM scavItem WHERE scavHuntId = :id")
-    fun selectAllScavItemsWith(id: Int) : List<ScavItem>
+    fun selectAllWith(id: Int) : List<ScavItem>
 }
 

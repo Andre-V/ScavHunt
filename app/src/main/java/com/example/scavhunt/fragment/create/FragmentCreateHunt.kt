@@ -15,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.example.scavhunt.CreateScavItemActivity
 import com.example.scavhunt.R
 import com.example.scavhunt.ScavHuntApp
@@ -103,9 +102,9 @@ class FragmentCreateHunt : Fragment() {
     }
     private fun saveScavHunt() {
         GlobalScope.launch(Dispatchers.IO) {
-            val rowid = ScavHuntApp.scavHuntDao.insertScavHunt(createHuntData.hunt)
+            val rowid = ScavHuntApp.scavHuntDao.insert(createHuntData.hunt)
             createHuntData.setItemsID(rowid.toInt())
-            ScavHuntApp.scavItemDao.insertScavItems(createHuntData.items)
+            ScavHuntApp.scavItemDao.insert(createHuntData.items)
         }
     }
 

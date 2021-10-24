@@ -37,8 +37,15 @@ class PlayScavHuntAdapter(
         private val title = v.findViewById<TextView>(R.id.row_play_title)
         private val rating = v.findViewById<TextView>(R.id.row_play_rating)
         private val completed = v.findViewById<TextView>(R.id.row_play_completed)
+        private val defaultColor = v.background
 
         fun bind(item: ScavHunt, position: Int) {
+            if (item.completed) {
+                v.setBackgroundResource(R.color.complete)
+            }
+            else {
+                v.background = defaultColor
+            }
             item.let {
                 title.text = it.title
                 rating.text = it.rating.toString()
