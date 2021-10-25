@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -18,6 +19,9 @@ import com.example.scavhunt.PlayTasksActivity
 import com.example.scavhunt.R
 import com.example.scavhunt.ScavHuntApp
 import com.example.scavhunt.db.ScavHunt
+import com.example.scavhunt.db.ScavItem
+import com.example.scavhunt.fragment.create.CreateHuntViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -26,7 +30,8 @@ class FragmentPlayHunt : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: PlayScavHuntAdapter
 
-    private val playHuntData: PlayHuntViewModel by viewModels()
+    private val playHuntViewModel: PlayHuntViewModel by viewModels()
+    private val createHuntViewModel: CreateHuntViewModel by activityViewModels()
 
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         // Refresh list on return
@@ -41,16 +46,16 @@ class FragmentPlayHunt : Fragment() {
 
         // Set up RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.play_recycler_view)
-        playHuntData.items.value?.let {
+        playHuntViewModel.items.value?.let {
             adapter = PlayScavHuntAdapter(it,
                 { playHunt(it) },
-                {  },
-                { playHunt(it) })
+                { deleteHunt(it) },
+                { editHunt(it) })
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(view.context)
         }
         // Observe changes in data
-        playHuntData.items.observe(viewLifecycleOwner, Observer {
+        playHuntViewModel.items.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
 
@@ -65,11 +70,27 @@ class FragmentPlayHunt : Fragment() {
         startForResult.launch(intent)
     }
     private fun editHunt(item: ScavHunt) {
-        this.findNavController()
+        val fragment = this
+        GlobalScope.launch {
+            createHuntViewModel.hunt = item
+            createHuntViewModel.items = ScavHuntApp.scavItemDao.selectAllWith(item.id) as MutableList<ScavItem>
+            GlobalScope.launch(Dispatchers.Main) {
+                fragment.findNavController().navigate(R.id.create_hunt)
+            }
+        }
+    }
+    private fun deleteHunt(item: ScavHunt) {
+        GlobalScope.launch {
+            val scavItems = ScavHuntApp.scavItemDao.selectAllWith(item.id)
+            ScavHuntApp.scavItemDao.delete(scavItems)
+            ScavHuntApp.scavHuntDao.delete(item)
+            refresh()
+        }
+
     }
     private fun refresh() {
         GlobalScope.launch {
-            playHuntData.items.postValue(ScavHuntApp.scavHuntDao.selectAll())
+            playHuntViewModel.items.postValue(ScavHuntApp.scavHuntDao.selectAll())
         }
     }
 

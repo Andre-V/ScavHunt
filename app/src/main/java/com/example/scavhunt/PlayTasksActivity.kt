@@ -24,7 +24,7 @@ class PlayTasksActivity : AppCompatActivity() {
     lateinit var adapter: PlayTasksAdapter
     var scavHunt: ScavHunt? = null
 
-    private val playTaskData: PlayTaskViewModel by viewModels()
+    private val playTaskViewModel: PlayTaskViewModel by viewModels()
 
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         result -> when(result.resultCode) {
@@ -41,7 +41,7 @@ class PlayTasksActivity : AppCompatActivity() {
                                 // Load items
                                 val items = ScavHuntApp.scavItemDao.selectAllWith(scavHunt.id)
                                 // Reload items
-                                playTaskData.items.postValue(items)
+                                playTaskViewModel.items.postValue(items)
                                 // Update hunt status
                                 var allComplete = true
                                 for (item in items) {
@@ -69,7 +69,7 @@ class PlayTasksActivity : AppCompatActivity() {
         scavHunt = intent.getParcelableExtra<ScavHunt>("hunt")
         // Set up RecyclerView
         recyclerView = findViewById<RecyclerView>(R.id.play_recycler_view)
-        playTaskData.items.value?.let {
+        playTaskViewModel.items.value?.let {
             adapter = PlayTasksAdapter(it) {
                 answerTask(it)
             }
@@ -77,12 +77,12 @@ class PlayTasksActivity : AppCompatActivity() {
             recyclerView.layoutManager = LinearLayoutManager(this)
         }
         // Observe changes in data
-        playTaskData.items.observe(this, Observer {
+        playTaskViewModel.items.observe(this, Observer {
             adapter.setData(it)
         })
         scavHunt?.let {
             GlobalScope.launch {
-                playTaskData.items.postValue(
+                playTaskViewModel.items.postValue(
                     ScavHuntApp.scavItemDao.selectAllWith(it.id)
                 )
             }

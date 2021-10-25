@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scavhunt.CreateScavItemActivity
@@ -27,8 +27,8 @@ class FragmentCreateHunt : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: CreateScavItemAdapter
-    //TODO: change scope to entire activity to edit previously made scavenger hunts
-    private val createHuntData: CreateHuntViewModel by viewModels()
+
+    private val createHuntViewModel: CreateHuntViewModel by activityViewModels()
 
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         result -> when(result.resultCode) {
@@ -42,11 +42,11 @@ class FragmentCreateHunt : Fragment() {
                         //createHuntData.hunt.id
                         // Determine to either overwrite existing data or append
                         if (index < 0) {
-                            createHuntData.items.add(it)
-                            recyclerView.adapter?.notifyItemInserted(createHuntData.items.size - 1)
+                            createHuntViewModel.items.add(it)
+                            recyclerView.adapter?.notifyItemInserted(createHuntViewModel.items.size - 1)
                         }
                         else {
-                            createHuntData.items[index] = it
+                            createHuntViewModel.items[index] = it
                             recyclerView.adapter?.notifyItemChanged(index)
                         }
                     }
@@ -64,7 +64,7 @@ class FragmentCreateHunt : Fragment() {
 
         // Set up RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.create_recycler_view)
-        adapter = CreateScavItemAdapter(createHuntData.items) {
+        adapter = CreateScavItemAdapter(createHuntViewModel.items) {
             // Set launch intent event for each item
             item: ScavItem, int : Int -> launchItemActivity(item, int, view.context)
         }
@@ -78,9 +78,13 @@ class FragmentCreateHunt : Fragment() {
 
         // Change ViewModel on text change
         view.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
-            editText?.doAfterTextChanged {
-                it?.let {
-                    createHuntData.hunt.title = it.toString()
+            editText?.apply {
+                this.setText(createHuntViewModel.hunt.title)
+
+                doAfterTextChanged {
+                    it?.let {
+                        createHuntViewModel.hunt.title = it.toString()
+                    }
                 }
             }
         }
@@ -102,20 +106,11 @@ class FragmentCreateHunt : Fragment() {
     }
     private fun saveScavHunt() {
         GlobalScope.launch(Dispatchers.IO) {
-            val rowid = ScavHuntApp.scavHuntDao.insert(createHuntData.hunt)
-            createHuntData.setItemsID(rowid.toInt())
-            ScavHuntApp.scavItemDao.insert(createHuntData.items)
+            val rowid = ScavHuntApp.scavHuntDao.insert(createHuntViewModel.hunt)
+            createHuntViewModel.setItemsID(rowid.toInt())
+            ScavHuntApp.scavItemDao.insert(createHuntViewModel.items)
         }
     }
 
 }
 
-class CreateHuntViewModel: ViewModel() {
-    var hunt : ScavHunt = ScavHunt("")
-    var items : MutableList<ScavItem> = mutableListOf()
-    fun setItemsID(id : Int) {
-        for (item in items) {
-            item.scavHuntId = id
-        }
-    }
-}

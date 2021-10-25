@@ -11,11 +11,13 @@ interface ScavHuntDao {
     fun update(scavHunt: ScavHunt)
     @Query("SELECT * FROM scavHunt")
     fun selectAll() : List<ScavHunt>
+    @Delete
+    fun delete(scavHunt: ScavHunt)
 }
 
 @Dao
 interface ScavItemDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(scavItem: ScavItem)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(scavItems: List<ScavItem>)
@@ -23,5 +25,9 @@ interface ScavItemDao {
     fun update(scavItem: ScavItem)
     @Query("SELECT * FROM scavItem WHERE scavHuntId = :id")
     fun selectAllWith(id: Int) : List<ScavItem>
+    @Delete
+    fun delete(scavItem: ScavItem)
+    @Delete
+    fun delete(scavItem: List<ScavItem>)
 }
 

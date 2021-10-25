@@ -20,6 +20,7 @@ class CreateScavItemActivity : AppCompatActivity() {
         val newitem = intent.getParcelableExtra<ScavItem>("item")
         index = intent.getIntExtra("index", -1)
         newitem?.let {
+            item = it
             titleInput.apply { editText?.setText(it.title) }
             descInput.apply { editText?.setText(it.desc) }
             answerInput.apply { editText?.setText(it.answer) }
