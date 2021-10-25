@@ -12,7 +12,6 @@ import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scavhunt.CreateScavItemActivity
@@ -27,6 +26,7 @@ class FragmentCreateHunt : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: CreateScavItemAdapter
+    lateinit var fragmentView : View
 
     private val createHuntViewModel: CreateHuntViewModel by activityViewModels()
 
@@ -60,24 +60,24 @@ class FragmentCreateHunt : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_create_hunt, container, false)
+        fragmentView = inflater.inflate(R.layout.fragment_create_hunt, container, false)
 
         // Set up RecyclerView
-        recyclerView = view.findViewById<RecyclerView>(R.id.create_recycler_view)
+        recyclerView = fragmentView.findViewById<RecyclerView>(R.id.create_recycler_view)
         adapter = CreateScavItemAdapter(createHuntViewModel.items,
             { item, int -> deleteItem(item, int) },
-            { item, int -> launchItemActivity(item, int, view.context) }
+            { item, int -> launchItemActivity(item, int, fragmentView.context) }
         )
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        recyclerView.layoutManager = LinearLayoutManager(fragmentView.context)
 
         // Set launch intent events for FAB
-        view.findViewById<FloatingActionButton>(R.id.create_floating_button).setOnClickListener {
-            launchItemActivity(null, null, view.context)
+        fragmentView.findViewById<FloatingActionButton>(R.id.create_floating_button).setOnClickListener {
+            launchItemActivity(null, null, fragmentView.context)
         }
 
         // Change ViewModel on text change
-        view.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
+        fragmentView.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
             editText?.apply {
                 this.setText(createHuntViewModel.hunt.title)
 
@@ -90,18 +90,21 @@ class FragmentCreateHunt : Fragment() {
         }
 
         // Set save event for submit button
-        view.findViewById<Button>(R.id.create_submit).setOnClickListener {
+        fragmentView.findViewById<Button>(R.id.create_submit).setOnClickListener {
             saveScavHunt()
+        }
+        // Reset form
+        fragmentView.findViewById<Button>(R.id.create_reset).setOnClickListener {
+            resetScavHunt()
         }
 
         // Load any data from ViewModel
-        return view
+        return fragmentView
     }
     private fun deleteItem(item: ScavItem, position: Int) {
-
         createHuntViewModel.items.remove(item)
         createHuntViewModel.itemsToDelete.add(item)
-        recyclerView.adapter?.apply {
+        adapter.apply {
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, createHuntViewModel.items.size)
         }
@@ -120,6 +123,21 @@ class FragmentCreateHunt : Fragment() {
             ScavHuntApp.scavItemDao.insert(createHuntViewModel.items)
             ScavHuntApp.scavItemDao.delete(createHuntViewModel.itemsToDelete)
         }
+    }
+    private fun resetScavHunt() {
+        val size = createHuntViewModel.items.size
+
+        createHuntViewModel.hunt = ScavHunt("")
+        createHuntViewModel.items.clear()
+        createHuntViewModel.itemsToDelete.clear()
+
+        fragmentView.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
+            editText?.apply {
+                setText("")
+            }
+        }
+
+        adapter.notifyItemRangeRemoved(0, size)
     }
 
 }
