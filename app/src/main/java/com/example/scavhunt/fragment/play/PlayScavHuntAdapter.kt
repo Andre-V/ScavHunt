@@ -3,17 +3,19 @@ package com.example.scavhunt.fragment.play
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scavhunt.R
 import com.example.scavhunt.db.ScavHunt
-import com.example.scavhunt.db.ScavItem
-import com.example.scavhunt.fragment.create.CreateScavItemAdapter
 
 
 class PlayScavHuntAdapter(
     private var data: List<ScavHunt>,
-    private val listener: (ScavHunt) -> Unit
+    private val playListener: (ScavHunt) -> Unit,
+    private val deleteListener: (ScavHunt) -> Unit,
+    private val editListener: (ScavHunt) -> Unit
 ) : RecyclerView.Adapter<PlayScavHuntAdapter.ViewHolder>() {
 
     override fun getItemCount() = data.size
@@ -35,24 +37,31 @@ class PlayScavHuntAdapter(
     
     inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v) {
         private val title = v.findViewById<TextView>(R.id.row_play_title)
-        private val rating = v.findViewById<TextView>(R.id.row_play_rating)
-        private val completed = v.findViewById<TextView>(R.id.row_play_completed)
+        private val rating = v.findViewById<RatingBar>(R.id.row_play_rating)
+        private val playButton = v.findViewById<ImageButton>(R.id.row_play_play)
+        private val editButton = v.findViewById<ImageButton>(R.id.row_play_edit)
+        private val deleteButton = v.findViewById<ImageButton>(R.id.row_play_delete)
         private val defaultColor = v.background
 
         fun bind(item: ScavHunt, position: Int) {
             if (item.completed) {
-                v.setBackgroundResource(R.color.complete)
+                v.setBackgroundResource(R.drawable.row_shape_complete)
             }
             else {
-                v.background = defaultColor
+                v.setBackgroundResource(R.drawable.row_shape)
             }
             item.let {
                 title.text = it.title
-                rating.text = it.rating.toString()
-                completed.text = it.completed.toString()
+                rating.rating = it.rating.toFloat()
             }
-            v.setOnClickListener {
-                listener(item)
+            playButton.setOnClickListener {
+                playListener(item)
+            }
+            editButton.setOnClickListener {
+                editListener(item)
+            }
+            deleteButton.setOnClickListener {
+                deleteListener(item)
             }
         }
     }

@@ -5,4 +5,7 @@
     <string name="menu_home_screen">Home</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_title">Title</string>
+    <string name="row_play_hunt">Play</string>
+    <string name="row_edit_hunt">Ed</string>
+    <string name="row_delete_hunt">Del</string>
 </resources>

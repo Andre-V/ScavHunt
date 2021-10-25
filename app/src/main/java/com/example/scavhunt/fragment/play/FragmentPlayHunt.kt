@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scavhunt.PlayTasksActivity
@@ -41,9 +42,10 @@ class FragmentPlayHunt : Fragment() {
         // Set up RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.play_recycler_view)
         playHuntData.items.value?.let {
-            adapter = PlayScavHuntAdapter(it) {
-                playHunt(it)
-            }
+            adapter = PlayScavHuntAdapter(it,
+                { playHunt(it) },
+                {  },
+                { playHunt(it) })
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(view.context)
         }
@@ -61,6 +63,9 @@ class FragmentPlayHunt : Fragment() {
             putExtra("hunt", item)
         }
         startForResult.launch(intent)
+    }
+    private fun editHunt(item: ScavHunt) {
+        this.findNavController()
     }
     private fun refresh() {
         GlobalScope.launch {

@@ -8,5 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <!-- User defined colours -->
-    <color name="complete">#6CD86C</color>
+    <color name="complete">#a6eda6</color>
+    <color name="row_button_icon">#FFFFFF</color>
+    <color name="play">#6bd66b</color>
+    <color name="delete">#f26060</color>
+    <color name="edit">#f2a960</color>
+    <color name="row_background">#efefef</color>
 </resources>
