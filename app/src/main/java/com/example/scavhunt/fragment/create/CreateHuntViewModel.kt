@@ -7,6 +7,7 @@ import com.example.scavhunt.db.ScavItem
 class CreateHuntViewModel: ViewModel() {
     var hunt : ScavHunt = ScavHunt("")
     var items : MutableList<ScavItem> = mutableListOf()
+    var itemsToDelete : MutableList<ScavItem> = mutableListOf()
     fun setItemsID(id : Int) {
         for (item in items) {
             item.scavHuntId = id

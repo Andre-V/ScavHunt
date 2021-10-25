@@ -74,6 +74,7 @@ class FragmentPlayHunt : Fragment() {
         GlobalScope.launch {
             createHuntViewModel.hunt = item
             createHuntViewModel.items = ScavHuntApp.scavItemDao.selectAllWith(item.id) as MutableList<ScavItem>
+            createHuntViewModel.itemsToDelete = mutableListOf()
             GlobalScope.launch(Dispatchers.Main) {
                 fragment.findNavController().navigate(R.id.create_hunt)
             }

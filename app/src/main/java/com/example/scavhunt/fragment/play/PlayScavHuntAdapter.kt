@@ -41,7 +41,6 @@ class PlayScavHuntAdapter(
         private val playButton = v.findViewById<ImageButton>(R.id.row_play_play)
         private val editButton = v.findViewById<ImageButton>(R.id.row_play_edit)
         private val deleteButton = v.findViewById<ImageButton>(R.id.row_play_delete)
-        private val defaultColor = v.background
 
         fun bind(item: ScavHunt, position: Int) {
             if (item.completed) {

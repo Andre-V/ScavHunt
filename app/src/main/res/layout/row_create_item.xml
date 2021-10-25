@@ -1,18 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/row_create_title"
+    android:layout_margin="10dp"
+    android:background="@drawable/row_shape"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/row_create_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/row_create_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Example Title"
+            android:textAppearance="@style/header1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/row_create_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Example Desc"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toStartOf="@+id/row_create_delete"
+            app:layout_constraintStart_toStartOf="@+id/row_create_title"
+            app:layout_constraintTop_toBottomOf="@+id/row_create_title" />
+
+        <ImageButton
+            android:id="@+id/row_create_edit"
+
+            style="@style/ImageButton"
+
+            android:backgroundTint="@color/edit"
+            android:src="@drawable/ic_edit_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row_create_title"
+            app:tint="@color/row_button_icon" />
+
+        <ImageButton
+            android:id="@+id/row_create_delete"
+
+            style="@style/ImageButton"
+
+            android:backgroundTint="@color/delete"
+            android:src="@drawable/ic_delete_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/row_create_edit"
+            app:tint="@color/row_button_icon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 </LinearLayout>

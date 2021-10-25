@@ -64,10 +64,10 @@ class FragmentCreateHunt : Fragment() {
 
         // Set up RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.create_recycler_view)
-        adapter = CreateScavItemAdapter(createHuntViewModel.items) {
-            // Set launch intent event for each item
-            item: ScavItem, int : Int -> launchItemActivity(item, int, view.context)
-        }
+        adapter = CreateScavItemAdapter(createHuntViewModel.items,
+            { item, int -> deleteItem(item, int) },
+            { item, int -> launchItemActivity(item, int, view.context) }
+        )
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
@@ -97,6 +97,15 @@ class FragmentCreateHunt : Fragment() {
         // Load any data from ViewModel
         return view
     }
+    private fun deleteItem(item: ScavItem, position: Int) {
+
+        createHuntViewModel.items.remove(item)
+        createHuntViewModel.itemsToDelete.add(item)
+        recyclerView.adapter?.apply {
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, createHuntViewModel.items.size)
+        }
+    }
     private fun launchItemActivity(item: ScavItem?, index: Int?, context: Context) {
         val intent = Intent(context, CreateScavItemActivity::class.java).apply {
             putExtra("item", item)
@@ -109,6 +118,7 @@ class FragmentCreateHunt : Fragment() {
             val rowid = ScavHuntApp.scavHuntDao.insert(createHuntViewModel.hunt)
             createHuntViewModel.setItemsID(rowid.toInt())
             ScavHuntApp.scavItemDao.insert(createHuntViewModel.items)
+            ScavHuntApp.scavItemDao.delete(createHuntViewModel.itemsToDelete)
         }
     }
 
