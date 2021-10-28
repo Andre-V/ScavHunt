@@ -31,4 +31,20 @@ class CreateHuntViewModel: ViewModel() {
             }
         }
     }
+    fun resetHunt() {
+        // Resets member data to initial configuration
+        hunt = ScavHunt("")
+        items.clear()
+        itemsToDelete.clear()
+    }
+    fun saveHunt() {
+        // Saves viewModel data to DB. Uses ID (unmodified when user edits) to
+        // determine whether to create new records or updating existing ones.
+        viewModelScope.launch(Dispatchers.IO) {
+            val rowid = ScavHuntApp.scavHuntDao.insert(hunt)
+            setItemsID(rowid.toInt())
+            ScavHuntApp.scavItemDao.insert(items)
+            ScavHuntApp.scavItemDao.delete(itemsToDelete)
+        }
+    }
 }

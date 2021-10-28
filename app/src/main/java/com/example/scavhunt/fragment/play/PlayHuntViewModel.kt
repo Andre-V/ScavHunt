@@ -15,7 +15,7 @@ class PlayHuntViewModel : ViewModel() {
         items.value = listOf()
     }
     fun refresh() {
-        // Reset value of items outside main thread
+        // Set value of items outside main thread
         viewModelScope.launch(Dispatchers.IO) {
             items.postValue(ScavHuntApp.scavHuntDao.selectAll())
         }

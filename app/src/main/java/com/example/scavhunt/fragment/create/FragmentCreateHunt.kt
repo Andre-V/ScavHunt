@@ -91,7 +91,7 @@ class FragmentCreateHunt : Fragment() {
 
         // Set save event for submit button
         fragmentView.findViewById<Button>(R.id.create_submit).setOnClickListener {
-            saveScavHunt()
+           createHuntViewModel.saveHunt()
         }
         // Reset form
         fragmentView.findViewById<Button>(R.id.create_reset).setOnClickListener {
@@ -116,20 +116,10 @@ class FragmentCreateHunt : Fragment() {
         }
         startForResult.launch(intent)
     }
-    private fun saveScavHunt() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val rowid = ScavHuntApp.scavHuntDao.insert(createHuntViewModel.hunt)
-            createHuntViewModel.setItemsID(rowid.toInt())
-            ScavHuntApp.scavItemDao.insert(createHuntViewModel.items)
-            ScavHuntApp.scavItemDao.delete(createHuntViewModel.itemsToDelete)
-        }
-    }
     private fun resetScavHunt() {
         val size = createHuntViewModel.items.size
 
-        createHuntViewModel.hunt = ScavHunt("")
-        createHuntViewModel.items.clear()
-        createHuntViewModel.itemsToDelete.clear()
+        createHuntViewModel.resetHunt()
 
         fragmentView.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
             editText?.apply {
