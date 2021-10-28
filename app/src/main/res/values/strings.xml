@@ -22,4 +22,5 @@
     <string name="create_hunt_button_submit">Save</string>
     <string name="create_hunt_hint_title">Scavenger Hunt Title</string>
     <string name="play_hunt_title">Your Scavenger Hunts</string>
+    <string name="qr_scanner_guide">Point the camera towards the QR code containing the answer.</string>
 </resources>
