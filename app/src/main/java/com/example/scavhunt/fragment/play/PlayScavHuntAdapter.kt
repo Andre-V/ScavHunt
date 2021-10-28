@@ -15,7 +15,8 @@ class PlayScavHuntAdapter(
     private var data: List<ScavHunt>,
     private val playListener: (ScavHunt) -> Unit,
     private val deleteListener: (ScavHunt) -> Unit,
-    private val editListener: (ScavHunt) -> Unit
+    private val editListener: (ScavHunt) -> Unit,
+    private val ratingListener: (ScavHunt) -> Unit
 ) : RecyclerView.Adapter<PlayScavHuntAdapter.ViewHolder>() {
 
     override fun getItemCount() = data.size
@@ -61,6 +62,10 @@ class PlayScavHuntAdapter(
             }
             deleteButton.setOnClickListener {
                 deleteListener(item)
+            }
+            rating.setOnRatingBarChangeListener { ratingBar: RatingBar, fl: Float, b: Boolean ->
+                item.rating = fl.toInt()
+                ratingListener(item)
             }
         }
     }

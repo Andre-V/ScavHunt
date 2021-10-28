@@ -29,4 +29,10 @@ class PlayHuntViewModel : ViewModel() {
             refresh()
         }
     }
+    fun updateHunt(item: ScavHunt) {
+        // Updates ScavHunt in DB
+        viewModelScope.launch(Dispatchers.IO) {
+            ScavHuntApp.scavHuntDao.update(item)
+        }
+    }
 }
