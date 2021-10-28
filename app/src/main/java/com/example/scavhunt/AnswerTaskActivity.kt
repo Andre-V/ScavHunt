@@ -26,12 +26,12 @@ class AnswerTaskActivity : AppCompatActivity() {
             answerButton.setOnClickListener {
                 if (answerInput.editText?.text.toString() == item.answer) {
                     answerInput.error = null
-                    answerInput.hint = "Correct!"
+                    answerInput.hint = getString(R.string.answer_task_hint_correct)
                     item.completed = true
                 }
                 else {
-                    answerInput.error = "Incorrect answer"
-                    answerInput.hint = "Input answer"
+                    answerInput.error = getString(R.string.answer_task_error)
+                    answerInput.hint = getString(R.string.answer_task_hint_default)
                     item.completed = false
                 }
             }

@@ -16,7 +16,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="150dp"
-            android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,22 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/answer_title" />
-
-        <!--<EditText
-            android:id="@+id/answer_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="200dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/answer_input"
@@ -53,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="hint">
+            android:hint="@string/answer_task_hint_default">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -65,7 +51,7 @@
             android:id="@+id/answer_check_answer"
             android:layout_width="256dp"
             android:layout_height="59dp"
-            android:text="CHECK ANSWER"
+            android:text="@string/answer_task_check_answer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/answer_input" />
@@ -74,7 +60,7 @@
             android:id="@+id/answer_scanner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="USE QR SCANNER"
+            android:text="@string/answer_task_qr"
             app:layout_constraintEnd_toEndOf="@+id/answer_check_answer"
             app:layout_constraintStart_toStartOf="@+id/answer_check_answer"
             app:layout_constraintTop_toBottomOf="@+id/answer_check_answer" />

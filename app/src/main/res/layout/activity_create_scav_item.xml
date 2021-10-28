@@ -7,11 +7,24 @@
     android:orientation="vertical"
     tools:context=".CreateScavItemActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/item_text_input_layout_title"
+    <TextView
+        android:id="@+id/item_text_view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title">
+        android:layout_margin="10dp"
+        android:text="@string/create_task_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/item_text_input_layout_title"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/create_task_hint_title">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -20,9 +33,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/item_text_input_layout_desc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Desc">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/create_task_hint_description">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -31,9 +49,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/item_text_input_layout_answer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Answer">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/create_task_hint_answer">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

@@ -17,6 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/play_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/play_hunt_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/play_recycler_view"
             android:layout_width="match_parent"

@@ -8,4 +8,18 @@
     <string name="row_play_hunt">Play</string>
     <string name="row_edit_hunt">Ed</string>
     <string name="row_delete_hunt">Del</string>
+    <string name="answer_task_hint_default">Input answer</string>
+    <string name="answer_task_hint_correct">Correct answer!</string>
+    <string name="answer_task_error">Incorrect answer</string>
+    <string name="answer_task_check_answer">CHECK ANSWER</string>
+    <string name="answer_task_qr">USE QR SCANNER</string>
+    <string name="create_task_hint_title">Title</string>
+    <string name="create_task_hint_description">Description</string>
+    <string name="create_task_hint_answer">Answer/Code</string>
+    <string name="create_task_title">Create/Edit Task</string>
+    <string name="create_hunt_title">Create/Edit Scavenger Hunt</string>
+    <string name="create_hunt_button_reset">Reset</string>
+    <string name="create_hunt_button_submit">Save</string>
+    <string name="create_hunt_hint_title">Scavenger Hunt Title</string>
+    <string name="play_hunt_title">Your Scavenger Hunts</string>
 </resources>
