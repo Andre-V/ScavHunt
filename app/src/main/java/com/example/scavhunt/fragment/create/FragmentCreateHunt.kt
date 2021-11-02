@@ -76,11 +76,12 @@ class FragmentCreateHunt : Fragment() {
             launchItemActivity(null, null, fragmentView.context)
         }
 
-        // Change ViewModel on text change
+
         fragmentView.findViewById<TextInputLayout>(R.id.create_text_input_layout).apply {
             editText?.apply {
                 this.setText(createHuntViewModel.hunt.title)
 
+                // Change ViewModel on text change
                 doAfterTextChanged {
                     it?.let {
                         createHuntViewModel.hunt.title = it.toString()
@@ -98,7 +99,6 @@ class FragmentCreateHunt : Fragment() {
             resetScavHunt()
         }
 
-        // Load any data from ViewModel
         return fragmentView
     }
     private fun deleteItem(item: ScavItem, position: Int) {

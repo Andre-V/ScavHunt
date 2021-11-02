@@ -34,7 +34,8 @@ class QRScannerActivity : AppCompatActivity() {
 
     }
     private fun checkPermissions() : Boolean {
-        // Check required permissions and check if it is granted
+        // Check required permissions in Manifest and check if it is granted
+        // Otherwise, present dialog requesting permission
         val permissions = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
         if (permissions != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -52,7 +53,7 @@ class QRScannerActivity : AppCompatActivity() {
         // Override default values
         codeScanner?.apply {
             formats = CodeScanner.TWO_DIMENSIONAL_FORMATS // Use QR codes not bar codes.
-            scanMode = ScanMode.CONTINUOUS // Finds codes without manual user input
+            scanMode = ScanMode.CONTINUOUS // Don't stop after receiving valid data
             // Code to execute upon QR code scanned
             decodeCallback = DecodeCallback {
                 runOnUiThread {
@@ -88,6 +89,8 @@ class QRScannerActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        // Seems to work like menu item selection, after a dialog option is selected,
+        // The permissions given are checked again for the corresponding request code passed.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             CAMERA_REQUEST_CODE -> {
