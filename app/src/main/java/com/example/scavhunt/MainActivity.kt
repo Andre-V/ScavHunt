@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private val createHuntViewModel: CreateHuntViewModel by viewModels()
+    //private val createHuntViewModel: CreateHuntViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
