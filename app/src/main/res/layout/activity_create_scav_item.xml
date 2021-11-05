@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CreateScavItemActivity">
+    tools:context=".activity.CreateScavItemActivity">
 
     <TextView
         android:id="@+id/item_text_view_title"

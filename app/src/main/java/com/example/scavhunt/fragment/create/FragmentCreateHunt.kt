@@ -14,13 +14,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.scavhunt.CreateScavItemActivity
+import com.example.scavhunt.activity.CreateScavItemActivity
 import com.example.scavhunt.R
-import com.example.scavhunt.ScavHuntApp
 import com.example.scavhunt.db.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.*
 
 class FragmentCreateHunt : Fragment() {
 

@@ -1,8 +1,9 @@
-package com.example.scavhunt
+package com.example.scavhunt.activity
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.scavhunt.R
 import com.example.scavhunt.db.ScavItem
 import com.google.android.material.textfield.TextInputLayout
 

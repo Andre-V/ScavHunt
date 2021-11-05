@@ -1,4 +1,4 @@
-package com.example.scavhunt
+package com.example.scavhunt.activity.playtasks
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,11 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scavhunt.activity.AnswerTaskActivity
+import com.example.scavhunt.R
 import com.example.scavhunt.db.ScavHunt
 import com.example.scavhunt.db.ScavItem
-import com.example.scavhunt.fragment.PlayTasksViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class PlayTasksActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView

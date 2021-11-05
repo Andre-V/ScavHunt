@@ -11,19 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScavHunt">
         <activity
-            android:name=".QRScannerActivity"
+            android:name=".activity.QRScannerActivity"
             android:exported="true" />
         <activity
-            android:name=".AnswerTaskActivity"
+            android:name=".activity.AnswerTaskActivity"
             android:exported="true" />
         <activity
-            android:name=".PlayTasksActivity"
+            android:name=".activity.playtasks.PlayTasksActivity"
             android:exported="true" />
         <activity
-            android:name=".CreateScavItemActivity"
+            android:name=".activity.CreateScavItemActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

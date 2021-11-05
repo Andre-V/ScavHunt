@@ -1,4 +1,4 @@
-package com.example.scavhunt.fragment
+package com.example.scavhunt.activity.playtasks
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

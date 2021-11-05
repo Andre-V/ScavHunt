@@ -1,13 +1,13 @@
-package com.example.scavhunt
+package com.example.scavhunt.activity
 
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.scavhunt.R
 import com.example.scavhunt.db.ScavItem
 import com.google.android.material.textfield.TextInputLayout
 

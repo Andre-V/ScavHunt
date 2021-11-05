@@ -1,12 +1,10 @@
-package com.example.scavhunt
+package com.example.scavhunt.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.scavhunt.fragment.create.CreateHuntViewModel
+import com.example.scavhunt.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

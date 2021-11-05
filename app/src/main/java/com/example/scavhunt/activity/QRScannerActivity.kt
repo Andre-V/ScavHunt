@@ -1,4 +1,4 @@
-package com.example.scavhunt
+package com.example.scavhunt.activity
 
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -13,6 +13,7 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.example.scavhunt.R
 import kotlinx.android.synthetic.main.activity_qrscanner.*
 import java.util.jar.Manifest
 

@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.scavhunt.PlayTasksActivity
+import com.example.scavhunt.activity.playtasks.PlayTasksActivity
 import com.example.scavhunt.R
 import com.example.scavhunt.db.ScavHunt
 import com.example.scavhunt.fragment.create.CreateHuntViewModel
